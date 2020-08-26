@@ -1,11 +1,12 @@
 import React from 'react';
 import { Text } from 'react-native';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import { Container } from './styles';
 
 const BinToTxt = () => {
   return (
-    <Text>BinToTxt</Text>
+    <Icon name="numeric-10" size={26} color="#000000" />
   );
 }
 
