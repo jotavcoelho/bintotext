@@ -1,11 +1,29 @@
 import React from 'react';
-import { Text } from 'react-native';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import { Container } from './styles';
+import { Container, OnlyText, Input, ConvertButton, ButtonContainer, ButtonText } from './styles';
 
 const TxtToBin = () => {
   return (
-    <Icon name="text" size={26} color="#000000" />
+    <Container>
+      <OnlyText>Text:</OnlyText>
+      <Input 
+        multiline={true}
+        textAlignVertical="top"
+      />
+      <ButtonContainer>
+        <ConvertButton>
+          <OnlyText>CONVERT</OnlyText>
+        </ConvertButton>
+      </ButtonContainer>
+      <OnlyText>Resulting Binary:</OnlyText>
+      <Input 
+        multiline={true}
+        textAlignVertical="top"
+        editable={false}
+        placeholder="The encoded text will appear here as binary"
+      />
+    </Container>
   );
 }
 
