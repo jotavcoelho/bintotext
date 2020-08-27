@@ -106,7 +106,7 @@ export const Spacebar = styled(Pressable)`
 `;
 
 export const Backspace = styled(Pressable)`
-  flex: 0.13;
+  flex: 0.2;
   align-items: center;
   justify-content: center;
   background-color: #fff;

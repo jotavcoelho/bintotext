@@ -97,7 +97,7 @@ const BinToTxt = () => {
               <Icon name="keyboard-space" color="#000" size={20} />
             </Spacebar>
             <Backspace
-              onpress={inputBackspace}
+              onPress={inputBackspace}
             >
               <Icon name="keyboard-backspace" color="#000" size={20} />
             </Backspace>
