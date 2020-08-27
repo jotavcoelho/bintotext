@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { Keyboard, Pressable } from 'react-native';
 
@@ -23,26 +23,46 @@ const BinToTxt = () => {
   const [output, setOutput] = useState("");
 
   const [visibleBinKeyb, setVisibleBinKeyb] = useState(false);
-  
-  function buttonPress() {
+
+  const inputPress = useCallback(() => setVisibleBinKeyb(true));
+
+  const convertPress = useCallback(() => {
     setVisibleBinKeyb(false);
-  }
+  }, []);
+
+  const inputOne = useCallback(() => {
+    setInput(input + "1");
+  }, [input]);
+
+  const inputZero = useCallback(() => {
+    setInput(input + "0");
+  }, [input]);
+
+  const inputSpacebar = useCallback(() => {
+    setInput(input + " ");
+  }, [input]);
+
+  const inputBackspace = useCallback(() => {
+    const backspaced = input.slice(0, -1);
+    setInput(backspaced);
+  }, [input]);
 
   return (
     <Container>
         <OnlyText>Binary:</OnlyText>
       <Pressable
-        onPress={() => setVisibleBinKeyb(true)}
+        onPress={inputPress}
       >
         <Input 
           multiline={true}
           textAlignVertical="top"
           editable={false}
+          placeholder="Input the binary code here. Keep in mind that the text cursor won't appear, but the keyboard will still work as intended."
           value={input}
         />
       </Pressable>
         <ButtonPressContainer
-          onPress={() => setVisibleBinKeyb(false)}
+          onPress={convertPress}
         >
           <ConvertButton>
             <OnlyText>CONVERT</OnlyText>
@@ -56,24 +76,34 @@ const BinToTxt = () => {
         placeholder="The decoded text will appear here"
         value={output}
       />
-      <BinKeyboard visible={visibleBinKeyb} >
-        <DigitsContainer>
-          <Digit>
-            <OneOrZero>1</OneOrZero>
-          </Digit>
-          <Digit>
-            <OneOrZero>0</OneOrZero>
-          </Digit>
-        </DigitsContainer>
-        <FuncButtonsContainer>
-          <Spacebar>
-            <Icon name="keyboard-space" color="#000" size={20} />
-          </Spacebar>
-          <Backspace>
-            <Icon name="keyboard-backspace" color="#000" size={20} />
-          </Backspace>
-        </FuncButtonsContainer>
-      </BinKeyboard>
+      {visibleBinKeyb && 
+        <BinKeyboard>
+          <DigitsContainer>
+            <Digit
+              onPress={inputOne}
+            >
+              <OneOrZero>1</OneOrZero>
+            </Digit>
+            <Digit
+              onPress={inputZero}
+            >
+              <OneOrZero>0</OneOrZero>
+            </Digit>
+          </DigitsContainer>
+          <FuncButtonsContainer>
+            <Spacebar
+              onPress={inputSpacebar}
+            >
+              <Icon name="keyboard-space" color="#000" size={20} />
+            </Spacebar>
+            <Backspace
+              onpress={inputBackspace}
+            >
+              <Icon name="keyboard-backspace" color="#000" size={20} />
+            </Backspace>
+          </FuncButtonsContainer>
+        </BinKeyboard>
+      }
     </Container>
   );
 }

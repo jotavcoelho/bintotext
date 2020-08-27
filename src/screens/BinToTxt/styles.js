@@ -55,14 +55,16 @@ export const BinKeyboard = styled.View`
   flex-direction: column;
   border: 2px solid #0c0c0c;
   border-radius: 6px;
-
+/* 
   opacity: 0;
   display: none;
+  visibility: hidden;
 
   ${props => props.visible && css`
     opacity: 1;
     display: flex;
-  `}
+    visibility: hidden;
+  `} */
   
   padding: 10px 5px;
 
