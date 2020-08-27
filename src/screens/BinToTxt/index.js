@@ -56,8 +56,9 @@ const BinToTxt = () => {
         <Input 
           multiline={true}
           textAlignVertical="top"
-          editable={false}
-          placeholder="Input the binary code here. Keep in mind that the text cursor won't appear, but the keyboard will still work as intended."
+          onFocus={inputPress}
+          showSoftInputOnFocus={false}
+          placeholder="Input the binary code here."
           value={input}
         />
       </Pressable>
