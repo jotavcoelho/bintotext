@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 
 import { RectButton } from 'react-native-gesture-handler';
+import { Pressable } from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
@@ -16,8 +17,10 @@ export const OnlyText = styled.Text`
 `;
 
 export const Input = styled.TextInput.attrs({
-  selectionColor: "#444",
+  selectionColor: "#999",
+  placeholderTextColor: "#666"
 })`
+  color: #333;
   height: 180px;
   background-color: #FFF;
   border-radius: 6px;
@@ -26,8 +29,8 @@ export const Input = styled.TextInput.attrs({
   border: 1px solid #ccc;
 `;
 
-export const ButtonContainer = styled.View`
-  flex: 1;
+export const ButtonPressContainer = styled(Pressable)`
+  height: 60px;
   border: 3px solid #111;
   border-radius: 6px;
   margin: 10px;
@@ -39,8 +42,4 @@ export const ConvertButton = styled(RectButton)`
   justify-content: center;
   background-color: #FFF;
   border-radius: 6px;
-`;
-
-export const ButtonText = styled.Text`
-
 `;

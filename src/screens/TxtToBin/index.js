@@ -1,28 +1,60 @@
-import React from 'react';
+import React, { useState, useCallback} from 'react';
+
+import { textToBin } from '../../util/convert';
+
+import { Keyboard, ScrollView } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Container, OnlyText, Input, ConvertButton, ButtonContainer, ButtonText } from './styles';
+import { 
+  Container, 
+  OnlyText, 
+  Input, 
+  ConvertButton, 
+  ButtonPressContainer, 
+  ButtonText 
+} from './styles';
 
 const TxtToBin = () => {
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+
+  const convert = useCallback(() => {
+    Keyboard.dismiss();
+
+    setOutput(textToBin(input));
+  }, [input, textToBin]);
+
+  const handleChangeText = useCallback(text => {
+    setInput(text);
+  }, []);
+  
   return (
     <Container>
-      <OnlyText>Text:</OnlyText>
-      <Input 
-        multiline={true}
-        textAlignVertical="top"
-      />
-      <ButtonContainer>
-        <ConvertButton>
-          <OnlyText>CONVERT</OnlyText>
-        </ConvertButton>
-      </ButtonContainer>
-      <OnlyText>Resulting Binary:</OnlyText>
-      <Input 
-        multiline={true}
-        textAlignVertical="top"
-        editable={false}
-        placeholder="The encoded text will appear here as binary"
-      />
+      <ScrollView>
+        <OnlyText>Text:</OnlyText>
+        <Input 
+          multiline={true}
+          textAlignVertical="top"
+          placeholder="Input the text here."
+          value={input}
+          onChangeText={handleChangeText}
+        />
+        <ButtonPressContainer
+          onPress={convert}
+        >
+          <ConvertButton>
+            <OnlyText>CONVERT</OnlyText>
+          </ConvertButton>
+        </ButtonPressContainer>
+        <OnlyText>Resulting Binary:</OnlyText>
+        <Input 
+          multiline={true}
+          textAlignVertical="top"
+          showSoftInputOnFocus={false}
+          placeholder="The encoded text will appear here as binary"
+          value={output}
+        />
+      </ScrollView>
     </Container>
   );
 }

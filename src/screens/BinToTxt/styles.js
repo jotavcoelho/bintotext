@@ -18,7 +18,7 @@ export const OnlyText = styled.Text`
 `;
 
 export const Input = styled.TextInput.attrs({
-  selectionColor: "#444",
+  selectionColor: "#999",
   placeholderTextColor: "#666"
 })`
   color: #333;
@@ -55,17 +55,6 @@ export const BinKeyboard = styled.View`
   flex-direction: column;
   border: 2px solid #0c0c0c;
   border-radius: 6px;
-/* 
-  opacity: 0;
-  display: none;
-  visibility: hidden;
-
-  ${props => props.visible && css`
-    opacity: 1;
-    display: flex;
-    visibility: hidden;
-  `} */
-  
   padding: 10px 5px;
 
 `;
@@ -92,7 +81,7 @@ export const OneOrZero = styled.Text`
 
 export const FuncButtonsContainer = styled.View`
   flex-direction: row;
-  flex: 0.2;
+  flex: 0.25;
 `;
 
 export const Spacebar = styled(Pressable)`

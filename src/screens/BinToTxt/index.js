@@ -1,6 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
-import { Keyboard, Pressable } from 'react-native';
+import { binToText } from '../../util/convert';
+
+import { Keyboard, Pressable, ScrollView } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { 
@@ -21,14 +23,20 @@ import {
 const BinToTxt = () => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
-
   const [visibleBinKeyb, setVisibleBinKeyb] = useState(false);
 
   const inputPress = useCallback(() => setVisibleBinKeyb(true));
 
-  const convertPress = useCallback(() => {
-    setVisibleBinKeyb(false);
+  const handleChangeText = useCallback(text => {
+    setInput(text);
   }, []);
+
+  const convert = useCallback(() => {
+    setVisibleBinKeyb(false);
+    Keyboard.dismiss();
+    
+    setOutput(binToText(input));
+  }, [input, binToText]);
 
   const inputOne = useCallback(() => {
     setInput(input + "1");
@@ -43,69 +51,79 @@ const BinToTxt = () => {
   }, [input]);
 
   const inputBackspace = useCallback(() => {
-    const backspaced = input.slice(0, -1);
-    setInput(backspaced);
+    setInput(input.slice(0, -1));
   }, [input]);
 
+  const pressOutsideInput = useCallback(() => {
+    setVisibleBinKeyb(false);
+    Keyboard.dismiss();
+  }, []);
+
   return (
-    <Container>
-        <OnlyText>Binary:</OnlyText>
-      <Pressable
-        onPress={inputPress}
-      >
-        <Input 
-          multiline={true}
-          textAlignVertical="top"
-          onFocus={inputPress}
-          showSoftInputOnFocus={false}
-          placeholder="Input the binary code here."
-          value={input}
-        />
-      </Pressable>
-        <ButtonPressContainer
-          onPress={convertPress}
-        >
-          <ConvertButton>
-            <OnlyText>CONVERT</OnlyText>
-          </ConvertButton>
-        </ButtonPressContainer>
-      <OnlyText>Resulting Text:</OnlyText>
-      <Input 
-        multiline={true}
-        textAlignVertical="top"
-        editable={false}
-        placeholder="The decoded text will appear here"
-        value={output}
-      />
-      {visibleBinKeyb && 
-        <BinKeyboard>
-          <DigitsContainer>
-            <Digit
-              onPress={inputOne}
+    <>
+      <Container onPress={pressOutsideInput}>
+        <ScrollView>
+          <OnlyText>Binary:</OnlyText>
+          <Pressable
+            onPress={inputPress}
+          >
+            <Input 
+              multiline={true}
+              textAlignVertical="top"
+              onFocus={inputPress}
+              onBlur={pressOutsideInput}
+              showSoftInputOnFocus={false}
+              placeholder="Input the binary code here."
+              value={input}
+              onChangeText={handleChangeText}
+            />
+          </Pressable>
+            <ButtonPressContainer
+              onPress={convert}
             >
-              <OneOrZero>1</OneOrZero>
-            </Digit>
-            <Digit
-              onPress={inputZero}
-            >
-              <OneOrZero>0</OneOrZero>
-            </Digit>
-          </DigitsContainer>
-          <FuncButtonsContainer>
-            <Spacebar
-              onPress={inputSpacebar}
-            >
-              <Icon name="keyboard-space" color="#000" size={20} />
-            </Spacebar>
-            <Backspace
-              onPress={inputBackspace}
-            >
-              <Icon name="keyboard-backspace" color="#000" size={20} />
-            </Backspace>
-          </FuncButtonsContainer>
-        </BinKeyboard>
-      }
-    </Container>
+              <ConvertButton>
+                <OnlyText>CONVERT</OnlyText>
+              </ConvertButton>
+            </ButtonPressContainer>
+          <OnlyText>Resulting Text:</OnlyText>
+          <Input 
+            multiline={true}
+            textAlignVertical="top"
+            editable={false}
+            placeholder="The decoded text will appear here"
+            value={output}
+          />
+        </ScrollView>
+      </Container>
+        {visibleBinKeyb && 
+          <BinKeyboard>
+            <DigitsContainer>
+              <Digit
+                onPress={inputOne}
+              >
+                <OneOrZero>1</OneOrZero>
+              </Digit>
+              <Digit
+                onPress={inputZero}
+              >
+                <OneOrZero>0</OneOrZero>
+              </Digit>
+            </DigitsContainer>
+            <FuncButtonsContainer>
+              <Spacebar
+                onPress={inputSpacebar}
+              >
+                <Icon name="keyboard-space" color="#000" size={20} />
+              </Spacebar>
+              <Backspace
+                onPress={inputBackspace}
+              >
+                <Icon name="keyboard-backspace" color="#000" size={20} />
+              </Backspace>
+            </FuncButtonsContainer>
+          </BinKeyboard>
+        }
+    </>
   );
 }
 
