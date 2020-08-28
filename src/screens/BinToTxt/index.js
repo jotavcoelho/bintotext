@@ -24,6 +24,7 @@ const BinToTxt = () => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [visibleBinKeyb, setVisibleBinKeyb] = useState(false);
+  const [cursor, setCursor] = useState({});
 
   const inputPress = useCallback(() => setVisibleBinKeyb(true));
 
@@ -59,6 +60,10 @@ const BinToTxt = () => {
     Keyboard.dismiss();
   }, []);
 
+  const handleSelectionChange = useCallback(selection => {
+    console.tron.log("selection changed");
+  }, [])
+
   return (
     <>
       <Container onPress={pressOutsideInput}>
@@ -78,6 +83,7 @@ const BinToTxt = () => {
               placeholder="Input the binary code here."
               value={input}
               onChangeText={handleChangeText}
+              onSelectionChange={handleSelectionChange}
             />
           </Pressable>
             <ButtonPressContainer
