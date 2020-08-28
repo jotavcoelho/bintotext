@@ -62,7 +62,9 @@ const BinToTxt = () => {
   return (
     <>
       <Container onPress={pressOutsideInput}>
-        <ScrollView>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+        >
           <OnlyText>Binary:</OnlyText>
           <Pressable
             onPress={inputPress}

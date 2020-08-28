@@ -22,7 +22,7 @@ const TxtToBin = () => {
     Keyboard.dismiss();
 
     setOutput(textToBin(input));
-  }, [input, textToBin]);
+  }, [input, textToBin, output]);
 
   const handleChangeText = useCallback(text => {
     setInput(text);
@@ -30,7 +30,9 @@ const TxtToBin = () => {
   
   return (
     <Container>
-      <ScrollView>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+      >
         <OnlyText>Text:</OnlyText>
         <Input 
           multiline={true}
