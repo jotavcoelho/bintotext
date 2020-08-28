@@ -61,15 +61,13 @@ const BinToTxt = () => {
   }, []);
 
   const handleSelectionChange = useCallback(selection => {
-    console.tron.log("selection changed");
-  }, [])
+    setCursor(selection);
+    console.tron.log(selection.nativeEvent.selection.start);
+  }, [cursor]);
 
   return (
     <>
       <Container onPress={pressOutsideInput}>
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-        >
           <OnlyText>Binary:</OnlyText>
           <Pressable
             onPress={inputPress}
@@ -83,7 +81,7 @@ const BinToTxt = () => {
               placeholder="Input the binary code here."
               value={input}
               onChangeText={handleChangeText}
-              onSelectionChange={handleSelectionChange}
+              // onSelectionChange={handleSelectionChange}
             />
           </Pressable>
             <ButtonPressContainer
@@ -101,7 +99,6 @@ const BinToTxt = () => {
             placeholder="The decoded text will appear here"
             value={output}
           />
-        </ScrollView>
       </Container>
         {visibleBinKeyb && 
           <BinKeyboard>
