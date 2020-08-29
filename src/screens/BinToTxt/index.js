@@ -36,8 +36,7 @@ const BinToTxt = () => {
     setVisibleBinKeyb(false);
     Keyboard.dismiss();
     
-    // setOutput(binToText(input));
-    setOutput(input[3]);
+    setOutput(binToText(input));
   }, [input, binToText]);
 
   const inputOne = useCallback(() => {
@@ -55,8 +54,8 @@ const BinToTxt = () => {
       const minusSelected = input.slice(0, cursor.start);
       setInput(minusSelected + "1" + afterSelection);
       setCursor({
-        start: cursor.start - 1,
-        end: cursor.end - 1,
+        start: cursor.start + 1,
+        end: cursor.start + 1,
       });
     }
     // setInput(input + "1");
@@ -77,8 +76,8 @@ const BinToTxt = () => {
       const minusSelected = input.slice(0, cursor.start);
       setInput(minusSelected + "0" + afterSelection);
       setCursor({
-        start: cursor.start - 1,
-        end: cursor.end - 1,
+        start: cursor.start + 1,
+        end: cursor.start + 1,
       });
     }
     // setInput(input + "0");
@@ -99,8 +98,8 @@ const BinToTxt = () => {
       const minusSelected = input.slice(0, cursor.start);
       setInput(minusSelected + " " + afterSelection);
       setCursor({
-        start: cursor.start - 1,
-        end: cursor.end - 1,
+        start: cursor.start + 1,
+        end: cursor.start + 1,
       });
     }
     // setInput(input + " ");
@@ -122,8 +121,8 @@ const BinToTxt = () => {
       const minusSelected = input.slice(0, cursor.start);
       setInput(minusSelected + afterSelection);
       setCursor({
-        start: cursor.start - 1,
-        end: cursor.end - 1,
+        start: cursor.start,
+        end: cursor.start,
       });
     }
     // setInput(input.slice(cursor.start, cursor.end));
@@ -176,9 +175,9 @@ const BinToTxt = () => {
           <Input 
             multiline={true}
             textAlignVertical="top"
-            editable={false}
             placeholder="The decoded text will appear here"
             value={output}
+            showSoftInputOnFocus={false}
           />
         </ScrollView>
       </Container>
