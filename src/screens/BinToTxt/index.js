@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { binToText } from '../../util/convert';
-
-import { Keyboard, Pressable, ScrollView } from 'react-native';
+import { Keyboard, Pressable, ScrollView, BackHandler } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { 
@@ -125,7 +125,6 @@ const BinToTxt = () => {
         end: cursor.start,
       });
     }
-    // setInput(input.slice(cursor.start, cursor.end));
   }, [input, cursor]);
 
   const pressOutsideInput = useCallback(() => {
@@ -135,11 +134,29 @@ const BinToTxt = () => {
 
   const handleSelectionChange = useCallback(selection => {
     setCursor(selection.nativeEvent.selection);
+    // console.tron.log(selection.nativeEvent.selection);
   }, [cursor]);
 
   useEffect(() => {
     // console.tron.log(cursor);    
   }, [cursor])
+
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        if(visibleBinKeyb) {
+          setInput("BACK WAS PRESSEDDDDDDDDDDDD");
+          setVisibleBinKeyb(false);
+          return true;
+        }
+        return false;
+      }
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [visibleBinKeyb])
+  );
 
   return (
     <>
