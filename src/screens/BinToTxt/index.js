@@ -24,7 +24,7 @@ const BinToTxt = () => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [visibleBinKeyb, setVisibleBinKeyb] = useState(false);
-  const [cursor, setCursor] = useState({});
+  const [cursor, setCursor] = useState({start: 0, end: 0});
 
   const inputPress = useCallback(() => setVisibleBinKeyb(true));
 
@@ -41,15 +41,69 @@ const BinToTxt = () => {
   }, [input, binToText]);
 
   const inputOne = useCallback(() => {
-    setInput(input + "1");
+    const beforeSelection = input.substring(0, cursor.start);
+    const afterSelection = input.substring(cursor.end);
+
+    if(cursor.start === cursor.end) {
+      setInput(beforeSelection + "1" + afterSelection);
+      setCursor({
+        start: cursor.start + 1,
+        end: cursor.end + 1,
+      });
+    }
+    else {
+      const minusSelected = input.slice(0, cursor.start);
+      setInput(minusSelected + "1" + afterSelection);
+      setCursor({
+        start: cursor.start - 1,
+        end: cursor.end - 1,
+      });
+    }
+    // setInput(input + "1");
   }, [input, cursor]);
 
   const inputZero = useCallback(() => {
-    setInput(input + "0");
+    const beforeSelection = input.substring(0, cursor.start);
+    const afterSelection = input.substring(cursor.end);
+
+    if(cursor.start === cursor.end) {
+      setInput(beforeSelection + "0" + afterSelection);
+      setCursor({
+        start: cursor.start + 1,
+        end: cursor.end + 1,
+      });
+    }
+    else {
+      const minusSelected = input.slice(0, cursor.start);
+      setInput(minusSelected + "0" + afterSelection);
+      setCursor({
+        start: cursor.start - 1,
+        end: cursor.end - 1,
+      });
+    }
+    // setInput(input + "0");
   }, [input, cursor]);
 
   const inputSpacebar = useCallback(() => {
-    setInput(input + " ");
+    const beforeSelection = input.substring(0, cursor.start);
+    const afterSelection = input.substring(cursor.end);
+
+    if(cursor.start === cursor.end) {
+      setInput(beforeSelection + " " + afterSelection);
+      setCursor({
+        start: cursor.start + 1,
+        end: cursor.end + 1,
+      });
+    }
+    else {
+      const minusSelected = input.slice(0, cursor.start);
+      setInput(minusSelected + " " + afterSelection);
+      setCursor({
+        start: cursor.start - 1,
+        end: cursor.end - 1,
+      });
+    }
+    // setInput(input + " ");
   }, [input, cursor]);
 
   const inputBackspace = useCallback(() => {
@@ -59,10 +113,18 @@ const BinToTxt = () => {
     if(cursor.start === cursor.end) {
       const minusChar = beforeSelection.slice(0, -1);
       setInput(minusChar + afterSelection);
+      setCursor({
+        start: cursor.start - 1,
+        end: cursor.end - 1,
+      });
     }
     else {
       const minusSelected = input.slice(0, cursor.start);
       setInput(minusSelected + afterSelection);
+      setCursor({
+        start: cursor.start - 1,
+        end: cursor.end - 1,
+      });
     }
     // setInput(input.slice(cursor.start, cursor.end));
   }, [input, cursor]);
@@ -100,6 +162,7 @@ const BinToTxt = () => {
               value={input}
               onChangeText={handleChangeText}
               onSelectionChange={handleSelectionChange}
+              selection={cursor}
             />
           </Pressable>
             <ButtonPressContainer
