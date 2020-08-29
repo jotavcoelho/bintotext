@@ -145,7 +145,6 @@ const BinToTxt = () => {
     useCallback(() => {
       const onBackPress = () => {
         if(visibleBinKeyb) {
-          setInput("BACK WAS PRESSEDDDDDDDDDDDD");
           setVisibleBinKeyb(false);
           return true;
         }
