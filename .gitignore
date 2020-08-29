@@ -57,3 +57,6 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# The file where I take notes of what I've learned throughout the process of making the application
+whatI'veLearned.txt

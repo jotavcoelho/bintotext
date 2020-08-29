@@ -36,24 +36,36 @@ const BinToTxt = () => {
     setVisibleBinKeyb(false);
     Keyboard.dismiss();
     
-    setOutput(binToText(input));
+    // setOutput(binToText(input));
+    setOutput(input[3]);
   }, [input, binToText]);
 
   const inputOne = useCallback(() => {
     setInput(input + "1");
-  }, [input]);
+  }, [input, cursor]);
 
   const inputZero = useCallback(() => {
     setInput(input + "0");
-  }, [input]);
+  }, [input, cursor]);
 
   const inputSpacebar = useCallback(() => {
     setInput(input + " ");
-  }, [input]);
+  }, [input, cursor]);
 
   const inputBackspace = useCallback(() => {
-    setInput(input.slice(0, -1));
-  }, [input]);
+    const beforeSelection = input.substring(0, cursor.start);
+    const afterSelection = input.substring(cursor.end);
+
+    if(cursor.start === cursor.end) {
+      const minusChar = beforeSelection.slice(0, -1);
+      setInput(minusChar + afterSelection);
+    }
+    else {
+      const minusSelected = input.slice(0, cursor.start);
+      setInput(minusSelected + afterSelection);
+    }
+    // setInput(input.slice(cursor.start, cursor.end));
+  }, [input, cursor]);
 
   const pressOutsideInput = useCallback(() => {
     setVisibleBinKeyb(false);
@@ -61,13 +73,19 @@ const BinToTxt = () => {
   }, []);
 
   const handleSelectionChange = useCallback(selection => {
-    setCursor(selection);
-    console.tron.log(selection.nativeEvent.selection.start);
+    setCursor(selection.nativeEvent.selection);
   }, [cursor]);
+
+  useEffect(() => {
+    // console.tron.log(cursor);    
+  }, [cursor])
 
   return (
     <>
       <Container onPress={pressOutsideInput}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+        >
           <OnlyText>Binary:</OnlyText>
           <Pressable
             onPress={inputPress}
@@ -81,7 +99,7 @@ const BinToTxt = () => {
               placeholder="Input the binary code here."
               value={input}
               onChangeText={handleChangeText}
-              // onSelectionChange={handleSelectionChange}
+              onSelectionChange={handleSelectionChange}
             />
           </Pressable>
             <ButtonPressContainer
@@ -99,6 +117,7 @@ const BinToTxt = () => {
             placeholder="The decoded text will appear here"
             value={output}
           />
+        </ScrollView>
       </Container>
         {visibleBinKeyb && 
           <BinKeyboard>
