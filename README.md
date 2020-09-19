@@ -14,6 +14,7 @@ $ cd bintotext
 # Install dependencies
 $ yarn install
 
-# Run the app (Android)
+# Run the app (Android)*
 $ npx react-native run-android
 ```
+* Note: You'll also need an Android emulator or have a phone connected via USB and Debugging turned on
